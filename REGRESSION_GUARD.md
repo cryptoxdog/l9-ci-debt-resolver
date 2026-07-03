@@ -1,7 +1,7 @@
 # Regression Guard
 
 - Do not weaken CI gates.
-- Export only observed or repaired findings.
+- Export only schema-valid findings with outcomes limited to observed, repaired, failed, blocked, or unknown.
 - Missing data must be `Unknown`, not invented.
 - Dispatch must include source repo, source SHA, run ID, run attempt, and artifact name.
 - Validate before dispatch.

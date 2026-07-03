@@ -51,8 +51,13 @@ def required_errors(row: dict[str, Any], required: set[str], where: str) -> list
     missing = sorted(required - set(row))
     if missing:
         errors.append(f"{where}: missing required fields: {', '.join(missing)}")
-    for field in required:
-        if isinstance(row.get(field), str) and not row[field].strip():
+    for field in sorted(required):
+        if field not in row:
+            continue
+        value = row[field]
+        if value is None:
+            errors.append(f"{where}: {field} must be non-null")
+        elif isinstance(value, str) and not value.strip():
             errors.append(f"{where}: {field} must be non-empty")
     return errors
 
