@@ -23,7 +23,7 @@ on:
 
 # ── Consumer config: edit these values for your repo ───────────────────────────
 env:
-  PYTHON_VERSION: "3.12"
+  PYTHON_VERSION: "3.11"
   SOURCE_DIR: "src"
   TEST_DIR: "tests/"
   # Fail the build below this line coverage percentage. 0 = advisory (no gate).
@@ -76,7 +76,7 @@ jobs:
         run: |
           mypy "${SOURCE_DIR}" \
             --show-error-codes --pretty \
-            --install-types --non-interactive --ignore-missing-imports
+            --install-types --non-interactive
 
   test:
     name: Test Suite
@@ -107,8 +107,7 @@ jobs:
           set -euo pipefail
           python -m pip install --upgrade pip
           if [ -f requirements-ci.txt ]; then pip install -r requirements-ci.txt; fi
-          pip install -e ".[dev]" || pip install -e . || \
-            echo "::notice::no local editable package to install"
+          pip install -e ".[dev]"
           command -v pytest >/dev/null 2>&1 || pip install pytest
           python -c "import pytest_cov" 2>/dev/null || pip install pytest-cov
           python -c "import xdist" 2>/dev/null || pip install pytest-xdist
@@ -118,7 +117,7 @@ jobs:
           TESTING: "true"
         run: |
           set -euo pipefail
-          PYTHONPATH=. pytest "${TEST_DIR}" \
+          PYTHONPATH="${SOURCE_DIR}" pytest "${TEST_DIR}" \
             -n auto \
             --cov="${SOURCE_DIR}" \
             --cov-report=xml --cov-report=term-missing \

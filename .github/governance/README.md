@@ -29,11 +29,14 @@ rulesets (see [`../l9-analysis.yml`](../l9-analysis.yml)), never in this pack.
 
 | Profile | Event | sdk_profile | Default mode | semgrep required |
 |---|---|---|---|---|
-| `pr_fast` | `pull_request` | ci_fast | blocking | yes |
+| `pr_fast` | `pull_request` | ci_fast | advisory¹ | yes |
 | `merge` | `push` | ci_fast | blocking | yes |
 | `nightly` | `schedule` | ci_deep | advisory | no |
 | `release` | `push` | ci_deep | blocking | yes |
 | `supply_chain` | `schedule` | ci_deep | blocking | yes |
+
+¹ `pr_fast` is set to `advisory` in `rule-modes.yaml` for the initial rollout on
+this repo; promote `advisory → blocking` per `promotion-policy.yaml` once stable.
 
 Validated with Core's own `validate-governance` (`status: valid`).
 
